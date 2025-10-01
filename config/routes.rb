@@ -3,5 +3,14 @@ Rails.application.routes.draw do
   
   root 'movimentacoes#index'
   
-  # root "posts#index"
+  get '/extrato/:correntista_id', to: 'movimentacoes#extrato'
+
+  post '/pagar', to: 'movimentacoes#pagar'
+
+  post 'transferir', to: 'movimentacoes#transferir'
+
+  post 'sacar', to: 'movimentacoes#sacar'
+
+  post 'depositar', to: 'movimentacoes#depositar'
+
 end
