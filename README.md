@@ -1,24 +1,28 @@
-# README
+# Movimentações API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Uma API simples feita em Ruby on Rails para exibir movimentações bancárias do PostgreSQL.
 
-Things you may want to cover:
+## Como usar
 
-* Ruby version
+```
+# Instalar dependências
+bundle install
 
-* System dependencies
+# Configurar banco de dados (edite config/database.yml primeiro)
+rails db:create
+rails db:migrate
 
-* Configuration
+# Iniciar servidor
+rails server
+```
 
-* Database creation
+## Endpoints
 
-* Database initialization
+- `GET /movimentacoes` - Ver todas as movimentações
+- `GET /extrato/:id` - Ver extrato por correntista
+- `POST /pagar` - Fazer pagamento
+- `POST /transferir` - Transferir valor
+- `POST /sacar` - Sacar dinheiro
+- `POST /depositar` - Depositar dinheiro
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Feito para a disciplina de Sistemas Corporativos.
