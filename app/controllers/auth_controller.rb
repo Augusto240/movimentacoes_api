@@ -1,4 +1,6 @@
 class AuthController < ActionController::API
+    skip_before_action :authenticate_jwt!, only: [:login]
+    
     def login
       if params[:password] == ENV['ADMIN_PASSWORD']
         token = generate_jwt_token
