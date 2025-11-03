@@ -8,22 +8,39 @@ class MovimentacoesController < ApplicationController
   end
     
   def extrato
-    @correntista = Correntista.find_by(correntista_id: params[:correntista_id])
-    
-    if @correntista
-      @movimentacoes = @correntista.movimentacoes.includes(:beneficiario).order(data_operacao: :desc)
-      render json: {
-        correntista: {
-          id: @correntista.correntista_id,
-          nome: @correntista.nome_correntista,
-          saldo: @correntista.saldo
-        },
-        movimentacoes: format_movimentacoes(@movimentacoes)
-      }
-    else
+    correntista = Correntista.find_by(correntista_id: params[:correntista_id])
+
+    unless correntista
       render json: { error: "Correntista não encontrado" }, status: :not_found
+      return
     end
+
+    movimentacoes = Movimentacao
+                      .where(correntista_id: correntista.correntista_id)
+                      .order(data_operacao: :desc)
+
+    render json: {
+      correntista: {
+        id: correntista.correntista_id,
+        nome: correntista.nome_correntista,
+        saldo: correntista.saldo
+      },
+      movimentacoes: movimentacoes.map do |m|
+        {
+          movimentacao_id: m.movimentacao_id,
+          tipo_operacao: m.tipo_operacao == 'C' ? 'Crédito' : 'Débito',
+          data_operacao: m.data_operacao&.strftime("%d/%m/%Y %H:%M:%S"),
+          descricao: m.descricao,
+          valor_operacao: m.valor_operacao.to_f,
+          beneficiario: m.beneficiario.present? ? {
+            id: m.beneficiario.correntista_id,
+            nome: m.beneficiario.nome_correntista
+          } : nil
+        }
+      end
+    }
   end
+
     
   def pagar
     @correntista = Correntista.find_by(correntista_id: params[:correntista_id])
@@ -193,23 +210,23 @@ class MovimentacoesController < ApplicationController
   end
   
   private
-  
+
   def format_movimentacoes(movimentacoes)
     movimentacoes.map do |mov|
       {
         movimentacao_id: mov.movimentacao_id,
-        tipo_operacao: mov.tipo_operacao == 'C' ? 'Crédito' : 'Débito',
+        tipo_operacao: mov.tipo_operacao,
         correntista: {
           id: mov.correntista.correntista_id,
           nome: mov.correntista.nome_correntista
         },
-        valor_operacao: mov.valor_operacao,
-        data_operacao: mov.data_operacao.strftime('%d/%m/%Y %H:%M:%S'),
-        descricao: mov.descricao,
-        beneficiario: mov.beneficiario ? {
+        beneficiario: mov.beneficiario.present? ? {
           id: mov.beneficiario.correntista_id,
           nome: mov.beneficiario.nome_correntista
-        } : nil
+        } : nil,
+        valor_operacao: mov.valor_operacao.to_f,
+        data_operacao: mov.data_operacao&.strftime("%Y-%m-%d %H:%M:%S"),
+        descricao: mov.descricao
       }
     end
   end

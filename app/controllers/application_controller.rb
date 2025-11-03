@@ -1,43 +1,23 @@
 class ApplicationController < ActionController::API
-    before_action :authenticate_jwt!
-  
-    private
-  
-    def authenticate_jwt!
-      token = extract_token_from_header
-      
-      unless token
-        render json: { error: 'Token não fornecido' }, status: :unauthorized
-        return
-      end
-  
-      begin
-        decoded_token = JWT.decode(token, jwt_secret, true, { algorithm: 'HS256' })
-        payload = decoded_token.first
-        
-        unless payload['authorized']
-          render json: { error: 'Token inválido' }, status: :unauthorized
-          return
-        end
+  before_action :authenticate_jwt!
 
-        @current_token_payload = payload
-        
-      rescue JWT::ExpiredSignature
-        render json: { error: 'Token expirado' }, status: :unauthorized
-      rescue JWT::DecodeError => e
-        render json: { error: 'Token malformado' }, status: :unauthorized
-      end
-    end
-  
-    def extract_token_from_header
-      header = request.headers['Authorization']
-      return nil unless header&.start_with?('Bearer ')
-      
-      header.split(' ').last
-    end
-  
-    def jwt_secret
-      ENV.fetch('JWT_SECRET') { raise 'JWT_SECRET não configurado' }
+  private
+
+  def authenticate_jwt!
+    auth_header = request.headers['Authorization']
+    token = auth_header.split(' ').last if auth_header
+
+    begin
+      decoded = JWT.decode(token, jwt_secret, true, algorithm: 'HS256')
+      @current_user = decoded.first
+    rescue JWT::DecodeError
+      render json: { error: 'Token inválido ou ausente' }, status: :unauthorized
+    rescue JWT::ExpiredSignature
+      render json: { error: 'Token expirado' }, status: :unauthorized
     end
   end
-  
+
+  def jwt_secret
+    ENV.fetch('JWT_SECRET') { raise 'JWT_SECRET não configurado' }
+  end
+end

@@ -48,3 +48,5 @@ end
 
 
 gem 'jwt'
+gem "rack-cors", "~> 3.0"
+gem 'dotenv-rails'

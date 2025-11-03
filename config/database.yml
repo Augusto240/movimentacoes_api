@@ -1,25 +1,20 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: 127.0.0.1   # ⚠️ força IPv4 em vez de ::1
+  port: 5432
+  username: postgres
+  password: 0908
+  pool: 5
 
 development:
   <<: *default
-  database: sistemas_corporativos
-  username: augusto
-  password: "0908"
-  host: localhost
+  database: sistemas_corporativos_development
 
 test:
   <<: *default
   database: sistemas_corporativos_test
-  username: augusto
-  password: "0908"
-  host: localhost
 
 production:
   <<: *default
   database: sistemas_corporativos_production
-  username: augusto
-  password: "0908"
-  host: localhost

@@ -1,4 +1,4 @@
-class AuthController < ActionController::API
+class AuthController < ApplicationController
     skip_before_action :authenticate_jwt!, only: [:login]
     
     def login

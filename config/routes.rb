@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
+  # 🔐 Autenticação
   post '/auth/login', to: 'auth#login'
 
+  # 🧍‍♂️ Correntistas
+  resources :correntistas, only: [:index, :show]
+
+  # 💸 Movimentações
   resources :movimentacoes, only: [:index]
   root 'movimentacoes#index'
   
