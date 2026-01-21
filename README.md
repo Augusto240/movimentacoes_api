@@ -43,7 +43,7 @@ Sistema bancário corporativo desenvolvido como projeto acadêmico para a discip
 
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/movimentacoes_api.git
+git clone https://github.com/Augusto240/movimentacoes_api.git
 cd movimentacoes_api
 ```
 
@@ -298,9 +298,9 @@ movimentacoes_api/
 
 ## 👨‍🎓 Informações Acadêmicas
 
-- **Disciplina:** Sistemas Corporativos
+- **Disciplina:** Desenvolvimento de Sistemas Corporativos
 - **Aluno:** José Augusto
-- **Período:** 2025
+- **Período:** 2025.2
 
 ---
 
