@@ -1267,8 +1267,8 @@
     // ===========================================
     // CONFIGURAÇÃO E VARIÁVEIS GLOBAIS
     // ===========================================
-    const API_BASE = 'http://localhost:3000';
-    const WS_URL = 'ws://localhost:3000/cable';
+    const API_BASE = `${window.location.protocol}//${window.location.host}`;
+    const WS_URL = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/cable`;
     
     let token = null;
     let webSocket = null;
