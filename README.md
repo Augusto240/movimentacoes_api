@@ -828,18 +828,6 @@ password: sua_senha_aqui
 
 ---
 
-## 🎬 Dicas para o Vídeo de Demonstração (5 minutos)
-
-1. **Introdução (30s):** Apresente o projeto, as tecnologias e a arquitetura
-2. **Login (30s):** Mostre a tela de login e o token JWT sendo gerado
-3. **Dashboard (30s):** Navegue pelo dashboard, selecione contas, mostre estatísticas
-4. **Operações (1min30s):** Faça um depósito, saque, pagamento e transferência
-5. **WebSocket ao vivo (1min):** Abra 2 abas, faça uma operação em uma e mostre a notificação aparecendo na outra — **este é o momento principal!**
-6. **Extrato + Correntistas (30s):** Mostre o extrato e a listagem de contas
-7. **Conclusão (30s):** Resuma as funcionalidades e encerre
-
----
-
 ## 👨‍🎓 Informações Acadêmicas
 
 | | |
